@@ -13,11 +13,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: gen-num1
-        run: echo "num=$(($RANDOM % 10 + 1))" >> $GITHUB_OUTPUT  # random # range [0 9]
+        run: echo "num=$(($RANDOM % 10 + 1))" >> $GITHUB_OUTPUT  # random number range [0 9]
       - id: gen-num2
         run: echo "num=$(($RANDOM % 10 + 1))" >> $GITHUB_OUTPUT
       - run: echo $((${{ steps.gen-num1.outputs.num }} + ${{ steps.gen-num2.outputs.num }}))
       - run: echo $((${{ steps.gen-num1.outputs.num }} - ${{ steps.gen-num2.outputs.num }}))
       - run: echo $((${{ steps.gen-num1.outputs.num }} * ${{ steps.gen-num2.outputs.num }}))
       - run: echo $((${{ steps.gen-num1.outputs.num }} / ${{ steps.gen-num2.outputs.num }}))
+  zeroone:
+    runs-on: ubuntu-latest
+    steps:
+      - id: gen-num
+        run: echo "num=$(($RANDOM % 2))" >> $GITHUB_OUTPUT
+      - if: steps.gen-num.outputs.num == 0
+        run: echo zero
+      - if: steps.gen-num.outputs.num == 1
+        run: echo one
+        
       
