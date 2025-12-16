@@ -3,10 +3,21 @@ on: push
 jobs:
   foobar:
     runs-on: ubuntu-latest
-    steps:
-      
+    steps:      
       - id: set-foo
       # run: echo "(name)=(value)" >> (ENV_VAR)
         run: echo "foo=bar" >> $GITHUB_OUTPUT
       # - run: echo ${{ steps.<step_id>.outputs.foo }}
       - run: echo ${{ steps.set-foo.outputs.foo }}
+  calculate:
+    runs-on: ubuntu-latest
+    steps:
+      - id: gen-num1
+        run: echo "num=$(($RANDOM % 10 + 1))" >> $GITHUB_OUTPUT  # random # range [0 9]
+      - id: gen-num2
+        run: echo "num=$(($RANDOM % 10 + 1))" >> $GITHUB_OUTPUT
+      - run: echo $((${{ steps.gen-num1.outputs.num }} + ${{ steps.gen-num2.outputs.num }}))
+      - run: echo $((${{ steps.gen-num1.outputs.num }} - ${{ steps.gen-num2.outputs.num }}))
+      - run: echo $((${{ steps.gen-num1.outputs.num }} * ${{ steps.gen-num2.outputs.num }}))
+      - run: echo $((${{ steps.gen-num1.outputs.num }} / ${{ steps.gen-num2.outputs.num }}))
+      
